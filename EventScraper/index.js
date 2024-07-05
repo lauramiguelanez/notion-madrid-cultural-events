@@ -11,7 +11,6 @@ class EventScraper {
     const pythonProcess = spawn("python", [path]);
     return new Promise((resolve, reject) => {
       pythonProcess.stdout.on("data", (data) => {
-        console.log(`stdout: ${data}`);
         resolve(data);
       });
 
@@ -21,7 +20,6 @@ class EventScraper {
       });
 
       pythonProcess.on("close", (code) => {
-        console.log(`Python script exited with code ${code}`);
         // Perform further actions after Python script completes
       });
     });

@@ -6,4 +6,4 @@ import NotionEvents from "./NotionIntegration/NotionEvents.js";
 dotenv.config();
 
 await eventScraper.runAllScripts();
-await NotionEvents.saveEventsToNotion();
+// await NotionEvents.saveEventsToNotion();

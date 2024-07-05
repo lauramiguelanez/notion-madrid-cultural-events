@@ -16,7 +16,7 @@ def scrape_data(url):
                 href = link["href"]
                 if not href.startswith("http"):
                     href = requests.compat.urljoin(url, href)
-                print(f"Visiting URL: {href}")
+                # print(f"Visiting URL: {href}")
 
                 event_response = requests.get(href)
                 if event_response.status_code == 200:

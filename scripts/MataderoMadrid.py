@@ -12,7 +12,6 @@ def scrape_data(url):
 
     # List to store the gathered information
     data = []
-
     # Check if the request was successful
     if response.status_code == 200:
         # Parse the content of the page with BeautifulSoup
@@ -69,21 +68,23 @@ def scrape_data(url):
                                 for date in date_strings
                             ]
 
-                            print(
-                                f"Date: {date_text} ---- {date_strings} ---- {date_objects}"
-                            )
+                            # print(f"Date: {date_text} ---- {date_strings} ---- {date_objects}")
 
                         else:
                             print("The text 'Fecha' was not found on the child page.")
 
                         # ADD DATA
+                       
                         data.append(
                             {
                                 "url": href,
-                                "event_title_text": event_title_text,
-                                "date_text": date_text,
-                                "date_object": date_objects,
-                                #'description_text': description_text
+                                "name": event_title_text,
+                                #"description": description_text,
+                                "dates": date_objects,
+                                # "image": image_url,
+                                "organizer": "Espacio Fundación Telefónica",
+                                "type": "Exhibition",
+                                "price": 0,
                             }
                         )
 
