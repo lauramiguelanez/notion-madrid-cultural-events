@@ -66,12 +66,24 @@ class NotionEvents {
     return organizer?.id;
   }
 
+  processDates(event) {
+    if (event.dates?.length) {
+      event.dates = event.dates.map((date) => {
+        const d = new Date(date);
+        console.log(date, d, d.toISOString());
+        return d.toISOString();
+      });
+    }
+    return event;
+  }
+
   /**
    * Saves an event object as a Notion database item.
    * @param {Object} event - The event object to be saved.
    * @returns {Promise<Object>} A promise that resolves to the saved page.
    */
-  async saveEvent(event) {
+  async saveEvent(data) {
+    const event = this.processDates(data);
     const organizerId = this.getOrganizerId(event.organizer);
 
     const newPage = await this.notion.pages.create({
@@ -88,6 +100,7 @@ class NotionEvents {
             },
           ],
         },
+
         Organizer: {
           relation: [
             {
@@ -95,10 +108,11 @@ class NotionEvents {
             },
           ],
         },
+
         ImgCover: {
           files: [
             {
-              external: { url: event.imageUrl },
+              external: { url: event.image },
               name: event.name,
               type: "external",
             },
@@ -112,22 +126,26 @@ class NotionEvents {
             name: event.type,
           },
         },
-        Date: {
-          date: {
-            start: event.dates[0],
-            end: event.dates[1],
-          },
-        },
+        Date: event.dates.length
+          ? {
+              date: {
+                start: event.dates[0],
+                end: event.dates[1] || event.dates[0],
+              },
+            }
+          : undefined,
+        /* 
         Tags: {
           multi_select: event.tags?.map((tag) => ({
             name: tag,
           })),
         },
-        Price: {
-          number: event.price,
-        },
         Location: {
           url: event.locationUrl,
+        },
+        */
+        Price: {
+          number: event.price,
         },
         Description: {
           rich_text: [
