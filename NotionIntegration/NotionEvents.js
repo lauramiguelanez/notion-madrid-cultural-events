@@ -12,17 +12,14 @@ class NotionEvents {
    * Constructs a new instance of the Notion class.
    */
   constructor() {
-    this.notionToken = process.env.NOTION_TOKEN;
     this.notionIntegrationToken = process.env.NOTION_INTEGRATION_TOKEN;
-    this.eventDb = "c063cfeda1af4238b692285c598c5828"; // Replace with the database ID from the URL
-    this.organizerDb = "5e257113116b4a7c84c67a8eba247676";
-    this.organizers = [];
-
-    // Initializing a client
-    this.notion = new Client({
-      auth: this.notionIntegrationToken,
-      logLevel: LogLevel.DEBUG,
-    });
+    this.eventDb = process.env.NOTION_EVENTS_DATABASE_ID;
+    (this.organizerDb = process.env.NOTION_ORGANIZER_DATABASE_ID),
+      // Initializing a client
+      (this.notion = new Client({
+        auth: this.notionIntegrationToken,
+        logLevel: LogLevel.DEBUG,
+      }));
   }
 
   async saveEventsToNotion() {
@@ -70,7 +67,6 @@ class NotionEvents {
     if (event.dates?.length) {
       event.dates = event.dates.map((date) => {
         const d = new Date(date);
-        console.log(date, d, d.toISOString());
         return d.toISOString();
       });
     }
@@ -159,7 +155,7 @@ class NotionEvents {
       },
     });
 
-    return newPage;
+    return;
   }
 
   /**
