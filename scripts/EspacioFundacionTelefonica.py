@@ -71,7 +71,6 @@ def main():
     url = "https://espacio.fundaciontelefonica.com/agenda/exposiciones/"
     data = scrape_data(url)
     if data:
-        print(data)
         # Specify the file path where you want to save the JSON file
         file_path = "data/EspacioFundacionTelefonica.json"
 

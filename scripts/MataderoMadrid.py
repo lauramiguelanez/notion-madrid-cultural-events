@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import dateparser
 from datetime import datetime
+import json
 
 
 def scrape_data(url):
@@ -103,7 +104,14 @@ def main():
     url ="https://www.mataderomadrid.org/programacion?f%5B0%5D=institution%3A25930"
     data = scrape_data(url)
     if data:
-        return data
+        # Specify the file path where you want to save the JSON file
+        file_path = "data/MataderoMadrid.json"
+
+        # Save the data as JSON
+        with open(file_path, "w") as file:
+            json.dump(data, file)
+
+        print("Data saved successfully.")
 
 
 if __name__ == "__main__":

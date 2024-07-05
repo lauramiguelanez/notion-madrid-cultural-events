@@ -53,6 +53,7 @@ To get started with the Madrid Cultural Events project, follow these steps:
 
    ```bash
    pip install -r requirements.txt
+   npm install
    ```
 
 ## Usage
