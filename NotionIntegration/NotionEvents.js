@@ -82,9 +82,20 @@ class NotionEvents {
     const event = this.processDates(data);
     const organizerId = this.getOrganizerId(event.organizer);
 
-    // before saving it check if an envent with the same event.name event already exist
-
-    // then update
+    // before saving it check if an event with the same event.name already exists
+    const existingEvent = await this.notion.databases.query({
+      database_id: this.eventDb,
+      filter: {
+        property: "Name",
+        title: {
+          contains: event.name,
+        },
+      },
+    });
+    if (existingEvent.results.length > 0) {
+      console.log("Event already exists:", event.name);
+      return;
+    }
 
     const eventName = event.name.substring(0, 100);
 
