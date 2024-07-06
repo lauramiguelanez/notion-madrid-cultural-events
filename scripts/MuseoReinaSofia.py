@@ -50,6 +50,7 @@ def scrape_data(url):
                         if description_element:
                             p_elements = description_element.find_all("p")
                             description = " ".join([p.get_text(strip=True) for p in p_elements])
+                            description = description[:500]
                         else:
                             print("Failed to find description element.")
                             
@@ -60,10 +61,13 @@ def scrape_data(url):
                             
                             year = date_text.split(", ")[-1]
                             dates = date_text.split(" - ")
-                            dates = [date.split(", ")[0] + f" {year}" for date in dates]
                             iso_dates = []
                             for date in dates:
-                                parsed_date = dateparser.parse(date, languages=["es"])
+                                curr_year = year
+                                if date.split(", ").__len__() > 1:
+                                    curr_year = date.split(", ")[1]
+                                full_date = date.split(", ")[0] + f" {curr_year}"
+                                parsed_date = dateparser.parse(full_date, languages=["es"])
                                 iso_date = parsed_date.strftime("%Y-%m-%d")
                                 iso_dates.append(iso_date)
                 
