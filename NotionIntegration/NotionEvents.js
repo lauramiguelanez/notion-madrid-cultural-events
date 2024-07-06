@@ -82,7 +82,13 @@ class NotionEvents {
     const event = this.processDates(data);
     const organizerId = this.getOrganizerId(event.organizer);
 
-    const newPage = await this.notion.pages.create({
+    // before saving it check if an envent with the same event.name event already exist
+
+    // then update
+
+    const eventName = event.name.substring(0, 100);
+
+    await this.notion.pages.create({
       parent: {
         database_id: this.eventDb,
       },
@@ -109,7 +115,7 @@ class NotionEvents {
           files: [
             {
               external: { url: event.image },
-              name: event.name,
+              name: eventName,
               type: "external",
             },
           ],
@@ -131,15 +137,15 @@ class NotionEvents {
             }
           : undefined,
         /* 
-        Tags: {
-          multi_select: event.tags?.map((tag) => ({
-            name: tag,
-          })),
-        },
-        Location: {
-          url: event.locationUrl,
-        },
-        */
+      Tags: {
+        multi_select: event.tags?.map((tag) => ({
+        name: tag,
+        })),
+      },
+      Location: {
+        url: event.locationUrl,
+      },
+      */
         Price: {
           number: event.price,
         },
